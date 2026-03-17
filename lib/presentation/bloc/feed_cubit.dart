@@ -42,7 +42,7 @@ class FeedCubit extends Cubit<FeedState> {
 
     try {
       await _repository.createPost(newPost);
-      loadFeed();
+      await loadFeed();
     } catch (e) {
       emit(state.copyWith(
         status: FeedStatus.error,

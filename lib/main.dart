@@ -4,7 +4,6 @@ import 'package:threads_clone/data/datasources/local_post_data_source.dart';
 import 'package:threads_clone/data/models/post_model.dart';
 import 'package:threads_clone/data/repositories/post_repository_impl.dart';
 import 'package:threads_clone/domain/entities/post.dart';
-import 'package:threads_clone/domain/repositories/post_repository.dart';
 import 'package:threads_clone/presentation/bloc/feed_cubit.dart';
 import 'package:threads_clone/presentation/screens/feed_screen.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
@@ -64,7 +63,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: const FeedScreen(),
+      home: BlocProvider(create: (context) => FeedCubit(PostRepositoryImpl(LocalPostDataSource()))..loadFeed(),
+                          child: const FeedScreen()),
     );
   }
 }
