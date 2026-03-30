@@ -11,11 +11,13 @@ abstract class PostModel with _$PostModel {
   const PostModel._();
 
   const factory PostModel({
-    @HiveField(0) required String id,
-    @HiveField(1) required String content,
-    @HiveField(2) required String authorId,
-    @HiveField(3) required String createdAt,
-    @HiveField(4) required int likes,
+    @HiveField(0)  String? id,
+    @HiveField(1)  String? content,
+    @HiveField(2)  String? authorId,
+    @HiveField(3)  String? createdAt,
+    @HiveField(4)  int? likes,
+    @HiveField(5) @Default(false) bool isLiked,
+    @HiveField(6) String? imageUrl
   }) = _PostModel;
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
@@ -28,6 +30,8 @@ abstract class PostModel with _$PostModel {
       authorId: post.authorId,
       createdAt: post.createdAt,
       likes: post.likes,
+      isLiked: post.isLiked,
+      imageUrl: post.imageUrl
     );
   }
 
@@ -38,6 +42,8 @@ abstract class PostModel with _$PostModel {
       authorId: authorId,
       createdAt: createdAt,
       likes: likes,
+      isLiked: isLiked,
+      imageUrl: imageUrl
     );
   }
 }

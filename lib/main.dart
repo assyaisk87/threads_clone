@@ -60,11 +60,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: BlocProvider(create: (context) => FeedCubit(PostRepositoryImpl(LocalPostDataSource()))..loadFeed(),
-                          child: const FeedScreen()),
+    final local = LocalPostDataSource();
+    final repository = PostRepositoryImpl(local);
+
+    return BlocProvider(
+      create: (_) => FeedCubit(repository)..loadFeed(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+        home: const FeedScreen(),
+      ),
     );
   }
 }

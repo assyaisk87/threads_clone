@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:threads_clone/domain/entities/post.dart';
+import 'package:threads_clone/presentation/screens/comments_screen.dart';
+import 'package:threads_clone/presentation/widgets/like_button.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({super.key, required this.post});
@@ -19,18 +21,21 @@ class PostCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  post.authorId,
+                  post.authorId ?? 'null',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 6),
-                Text(post.content, style: TextStyle(fontSize: 15)),
+                Text(post.content ?? '', style: TextStyle(fontSize: 15)),
                 const SizedBox(height: 10),
 
                 Row(
                   children: [
-                    Icon(Icons.favorite_border, size: 20),
+                    LikeButton(post: post),
                     const SizedBox(width: 20),
-                    Icon(Icons.mode_comment_outlined, size: 20),
+                    GestureDetector(
+                      onTap: () => CommentsScreen.show(context, post),
+                      child: Icon(Icons.mode_comment_outlined, size: 20),
+                    ),
                     const SizedBox(width: 20),
                     Icon(Icons.repeat, size: 20),
                   ],
