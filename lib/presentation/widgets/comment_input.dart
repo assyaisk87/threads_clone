@@ -36,6 +36,8 @@ class _CommentInputState extends State<CommentInput> {
             ),
             IconButton(onPressed: () {
               context.read<CommentsCubit>().addComment();
+              _textController.clear();
+              context.read<CommentsCubit>().inputChanged('');
             }, icon: Icon(Icons.send)),
           ],
         );}

@@ -8,7 +8,7 @@ import 'package:threads_clone/presentation/bloc/comments/comments_state.dart';
 import 'package:threads_clone/presentation/widgets/comment_input.dart';
 import 'package:threads_clone/presentation/widgets/comment_tile.dart';
 
-class CommentsScreen extends StatelessWidget {
+class CommentsScreen extends StatefulWidget {
   const CommentsScreen({super.key, required this.post});
 
   final Post post;
@@ -27,6 +27,17 @@ class CommentsScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  @override
+  State<CommentsScreen> createState() => _CommentsScreenState();
+}
+
+class _CommentsScreenState extends State<CommentsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<CommentsCubit>().loadComment();
   }
 
   @override
