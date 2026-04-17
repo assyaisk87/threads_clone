@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:threads_clone/domain/entities/comment.dart';
 
 class CommentTile extends StatelessWidget {
@@ -28,6 +27,7 @@ class CommentTile extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [

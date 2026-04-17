@@ -36,4 +36,10 @@ class PostRepositoryImpl implements PostRepository {
 
     await _local.updatePost(updated);
   }
+
+   @override
+  Future<List<Post>> getPostsByUser(String authorId) async {
+    final models = await _local.getPostByUser(authorId);
+    return models.map((m) => m.toEntity()).toList();
+  }
 }
