@@ -9,9 +9,19 @@ import 'package:threads_clone/presentation/bloc/feed_cubit.dart';
 import 'package:threads_clone/presentation/screens/feed_screen.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 Future<void> main() async {
   // Initialize the Flutter binding
   WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: '.env');
+
+  await Supabase.initialize(
+    url: dotenv.env['API_URL'] ?? '',
+    anonKey: dotenv.env['API_KEY'] ?? '',
+  );
 
   // Initialize Hive and register the PostModel adapter
   await Hive.initFlutter();
