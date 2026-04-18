@@ -1,12 +1,14 @@
 import 'package:threads_clone/data/datasources/local_post_data_source.dart';
+import 'package:threads_clone/data/datasources/remote_post_data_source.dart';
 import 'package:threads_clone/data/models/post_model.dart';
 import 'package:threads_clone/domain/entities/post.dart';
 import 'package:threads_clone/domain/repositories/post_repository.dart';
 
 class PostRepositoryImpl implements PostRepository {
   final LocalPostDataSource _local;
+  final RemotePostDataSource _remote;
 
-  PostRepositoryImpl(this._local);
+  PostRepositoryImpl(this._local, this._remote);
 
   @override
   Future<void> createPost(Post post) async {
@@ -16,9 +18,20 @@ class PostRepositoryImpl implements PostRepository {
 
   @override
   Future<List<Post>> getFeed() async {
-    final models = await _local.getPosts();
+    try {
+      final remotePosts = await _remote.getPosts();
 
-    return models.map((model) => model.toEntity()).toList();
+      await _local.clear();
+
+      for (final post in remotePosts) {
+        await _local.savePost(post);
+      }
+
+      return remotePosts.map((model) => model.toEntity()).toList();
+    } catch (e) {
+      final cached = await _local.getPosts();
+      return cached.map((model) => model.toEntity()).toList();
+    }
   }
 
   @override

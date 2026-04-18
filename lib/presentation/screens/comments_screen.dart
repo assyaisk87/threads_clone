@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:threads_clone/data/datasources/local_comment_data_source.dart';
-import 'package:threads_clone/data/repositories/comment_repository_impl.dart';
+import 'package:threads_clone/domain/repositories/comment_repository.dart';
+import 'package:threads_clone/locator.dart';
 import 'package:threads_clone/domain/entities/post.dart';
 import 'package:threads_clone/presentation/bloc/comments/comments_cubit.dart';
 import 'package:threads_clone/presentation/bloc/comments/comments_state.dart';
@@ -19,10 +19,10 @@ class CommentsScreen extends StatefulWidget {
       backgroundColor: Colors.transparent,
       builder: (context) {
         return BlocProvider(
-          create: (context) => CommentsCubit(
-            CommentRepositoryImpl(LocalCommentDataSource()),
-            post.id!,
-          ),
+          create: (context) =>
+              CommentsCubit(locator<CommentRepository>(), post.id!),
+            
+          
           child: CommentsScreen(post: post),
         );
       },

@@ -8,7 +8,8 @@ import 'package:threads_clone/hive_registrar.g.dart';
 import 'package:threads_clone/presentation/bloc/feed_cubit.dart';
 import 'package:threads_clone/presentation/screens/feed_screen.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
-
+import 'package:threads_clone/domain/repositories/post_repository.dart';
+import 'package:threads_clone/locator.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -28,6 +29,7 @@ Future<void> main() async {
   Hive.registerAdapters();
 
   await _seedData();
+   await setupDependencies();
 
   runApp(const MyApp());
 }
@@ -71,11 +73,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final local = LocalPostDataSource();
-    final repository = PostRepositoryImpl(local);
 
     return BlocProvider(
-      create: (_) => FeedCubit(repository)..loadFeed(),
+      create: (context) => FeedCubit(locator<PostRepository>())..loadFeed(),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
