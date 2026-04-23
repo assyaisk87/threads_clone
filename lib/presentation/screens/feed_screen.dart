@@ -48,7 +48,11 @@ class _FeedScreenState extends State<FeedScreen> {
                     child: CreatePostScreen(),
                   ),
                 ),
-              );
+              ).then((_) {
+                if(context.mounted){
+                  context.read<FeedCubit>().loadFeed();
+                }
+              });
             },
             icon: Icon(Icons.edit_outlined),
           ),

@@ -17,7 +17,7 @@ class Post {
     this.imageUrl,
   });
 
-  Post copyWith({bool? isLiked, int? likes}) {
+  Post copyWith({bool? isLiked, int? likes, String? imageUrl }) {
     return Post(
       id: id,
       content: content,
