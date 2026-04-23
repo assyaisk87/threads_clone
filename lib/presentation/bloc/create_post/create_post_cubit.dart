@@ -1,14 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:threads_clone/domain/entities/post.dart';
+import 'package:threads_clone/domain/repositories/auth_repository.dart';
 import 'package:threads_clone/domain/repositories/post_repository.dart';
 import 'package:threads_clone/presentation/bloc/create_post/create_post_state.dart';
 
 class CreatePostCubit extends Cubit<CreatePostState> {
   final PostRepository _repository;
   final ImagePicker _picker;
+  final AuthRepository _authRepository;
 
-  CreatePostCubit(this._repository, this._picker)
+
+  CreatePostCubit(this._repository, this._picker, this._authRepository)
     : super(const CreatePostState());
 
   void contentChanged(String value) {
@@ -41,11 +44,12 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     if (!state.canSubmit) return;
 
     emit(state.copyWith(status: CreatePostStatus.loading));
+    final authUser = _authRepository.currentUser;
 
     final newPost = Post(
       id: DateTime.now().millisecond.toString(),
       content: state.content.trim(),
-      authorId: 'me',
+      authorId: authUser!.id,
       createdAt: '',
       likes: 0,
       imageUrl: state.imageUrl,

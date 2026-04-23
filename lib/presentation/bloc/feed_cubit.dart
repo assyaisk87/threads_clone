@@ -31,7 +31,7 @@ class FeedCubit extends Cubit<FeedState> {
     }
   }
 
-  Future<void> createPost(String content) async {
+  Future<void> createPost(String content) async {    
     final newPost = Post(
       id: DateTime.now().millisecond.toString(),
       content: content,

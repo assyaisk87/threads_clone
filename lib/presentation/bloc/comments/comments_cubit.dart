@@ -1,13 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:threads_clone/domain/entities/comment.dart';
+import 'package:threads_clone/domain/repositories/auth_repository.dart';
 import 'package:threads_clone/domain/repositories/comment_repository.dart';
 import 'package:threads_clone/presentation/bloc/comments/comments_state.dart';
 
 class CommentsCubit extends Cubit<CommentsState> {
   final CommentRepository _repository;
   final String _postId;
+  final AuthRepository _authRepository;
 
-  CommentsCubit(this._repository, this._postId) : super(const CommentsState());
+  CommentsCubit(this._repository, this._postId, this._authRepository): super(const CommentsState());
 
   Future<void> loadComment() async {
     emit(state.copyWith(status: CommentStatus.loading));
@@ -33,10 +35,12 @@ class CommentsCubit extends Cubit<CommentsState> {
   Future<void> addComment() async {
     if (!state.canSubmit) return;
 
+    final authUser = _authRepository.currentUser;
+
     final comment = Comment(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       postId: _postId,
-      authorId: 'me',
+      authorId: authUser!.id,
       content: state.inputText.trim(),
       createdAt: DateTime.now().toIso8601String(),
     );

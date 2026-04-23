@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:threads_clone/domain/repositories/auth_repository.dart';
 import 'package:threads_clone/domain/repositories/post_repository.dart';
 import 'package:threads_clone/locator.dart';
-import 'package:threads_clone/domain/entities/post.dart';
 import 'package:threads_clone/presentation/bloc/create_post/create_post_cubit.dart';
 import 'package:threads_clone/presentation/bloc/feed_cubit.dart';
 import 'package:threads_clone/presentation/bloc/feed_state.dart';
@@ -32,6 +32,7 @@ class FeedScreen extends StatelessWidget {
                     create: (_) => CreatePostCubit(
                       locator<PostRepository>(),
                       locator<ImagePicker>(),
+                      locator<AuthRepository>(),
                     ),
                     child: CreatePostScreen(),
                   ),
