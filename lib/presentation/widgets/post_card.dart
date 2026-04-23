@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:threads_clone/domain/entities/post.dart';
+import 'package:threads_clone/presentation/bloc/auth/auth_cubit.dart';
 import 'package:threads_clone/presentation/screens/comments_screen.dart';
 import 'package:threads_clone/presentation/widgets/like_button.dart';
 import 'package:threads_clone/presentation/screens/profile_screen.dart';
@@ -30,7 +32,13 @@ class PostCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  post.authorId ?? 'null',
+                   () {
+                    final currentUser = context.read<AuthCubit>().state.user;
+                    if (currentUser != null && post.authorId == currentUser.id) {
+                      return currentUser.username;
+                    }
+                    return post.authorId ?? 'null';
+                  }(),
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 6),

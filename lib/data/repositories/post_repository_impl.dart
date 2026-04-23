@@ -13,6 +13,7 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<void> createPost(Post post) async {
     final model = PostModel.fromEntity(post);
+    await _remote.createPost(model);
     await _local.savePost(model);
   }
 

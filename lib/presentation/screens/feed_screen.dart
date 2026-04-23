@@ -10,8 +10,19 @@ import 'package:threads_clone/presentation/bloc/feed_state.dart';
 import 'package:threads_clone/presentation/screens/create_post_screen.dart';
 import 'package:threads_clone/presentation/widgets/post_card.dart';
 
-class FeedScreen extends StatelessWidget {
+class FeedScreen extends StatefulWidget {
   const FeedScreen({super.key});
+
+  @override
+  State<FeedScreen> createState() => _FeedScreenState();
+}
+
+class _FeedScreenState extends State<FeedScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<FeedCubit>().loadFeed();
+  }
 
   @override
   Widget build(BuildContext context) {

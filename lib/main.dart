@@ -13,6 +13,7 @@ import 'package:threads_clone/domain/repositories/post_repository.dart';
 import 'package:threads_clone/locator.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:threads_clone/presentation/widgets/auth_wrapper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -82,7 +83,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-        home: const FeedScreen(),
+        home: const AuthWrapper(),
       ),
     );
   }
